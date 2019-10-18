@@ -9,8 +9,9 @@ In order to run Lahap functions you must instantiate a Lahap session, a `boto3.S
 ```python
 from lahap import create_session
 
-lahap = create_session(region_name="us-east-1", profile_name="profile") # using profile stored credentials
-lahap = create_session(region_name="us-east-1", aws_access_key_id="access-key", aws_secret_access_key="secret-key") # using explicit key credentials
+lahap = create_session(region_name="us-east-1", profile_name="profile") # using profile
+lahap = create_session(region_name="us-east-1", aws_access_key_id="access-key", 
+                       aws_secret_access_key="secret-key") # using explicit key credentials
 ```
 
 ### Truncate table
