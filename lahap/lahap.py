@@ -47,6 +47,27 @@ class Lahap:
             database (str): target Glue catalog database
             table (str): target Glue catalog table
 
+        Returns:
+            None: none
+
         TODO: add catalog_id parameter
         """
         Glue(self.session).truncate_table(database=database, table=table)
+
+    def drop_table(self, database: str, table: str, only_schema: bool) -> None:
+        """Drop table with or without deleting its S3 files.
+
+        Args:
+            database (str): target Glue catalog database
+            table (str): target Glue catalog table
+            only_schema (bool): whether Glue Table's S3 data should be deleted (False)
+                or only Glue Table's schema (True).
+
+        Returns:
+            None: none
+
+        TODO: add catalog_id parameter
+        """
+        if not only_schema:
+            self.truncate_table(database=database, table=table)
+        Glue(self.session).drop_table(database=database, table=table)
