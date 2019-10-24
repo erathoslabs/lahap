@@ -14,10 +14,10 @@ class Glue:
         """Split S3 location from string 's3://bucket/path' to 'bucket' and 'path'.
 
         Args:
-            s3_location (str): s3 full location as 's3://bucket/path'
+            s3_location (str): S3 full location as 's3://bucket/path'
 
         Returns:
-            str, str: s3 bucket and path divided
+            str, str: S3 bucket and path divided
         """
         path_without_fs = s3_location.replace("s3://", "")
         paths = path_without_fs.split("/", 1)
@@ -31,13 +31,13 @@ class Glue:
             table (str): catalog Table
 
         Returns:
-            str: s3 location full path
+            str: S3 location full path
         """
         response = self.client.get_table(DatabaseName=database, Name=table)
         return response.get("Table").get("StorageDescriptor").get("Location")
 
     def truncate_table(self, database: str, table: str) -> None:
-        """Delete all files under s3 prefix.
+        """Delete all files under S3 prefix.
 
         Args:
             database (str): catalog Database
@@ -46,3 +46,12 @@ class Glue:
         s3_location = self._get_table_location(database=database, table=table)
         bucket, prefix = self._split_s3_location(s3_location)
         S3(self.session).delete_by_prefix(bucket=bucket, prefix=prefix)
+
+    def drop_table(self, database: str, table: str) -> None:
+        """Drop only table definitions (schema).
+
+        Args:
+            database (str): catalog Database
+            table (str): catalog Table
+        """
+        self.client.delete_table(DatabaseName=database, Name=table)
