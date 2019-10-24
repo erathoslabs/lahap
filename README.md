@@ -1,5 +1,4 @@
 # Lahap
-
 Lahap is a utility package for AWS Athena and AWS Glue.
 
 <a href="https://github.com/psf/black"><img alt="Code Style: Black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
@@ -18,6 +17,12 @@ lahap = create_session(region_name="us-east-1", aws_access_key_id="access-key",
 Deletes all S3 files located in a Glue Table's S3 location. Be careful.
 ```python
 lahap.truncate_table(database="catalog-database", table="catalog-table")
+```
+
+### Drop table
+Drops Glue Table with or without its respective data in S3. Be careful.
+```python
+lahap.drop_table(database="catalog-database", table="catalog-table", only_schema=False)
 ```
 
 ### Convert table to Parquet
