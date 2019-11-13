@@ -50,6 +50,6 @@ lahap.convert_query_to_parquet(
 )
 ```
 
-##References
-###Amazon Athena CTA
+## References
+### Amazon Athena CTA
 https://docs.aws.amazon.com/athena/latest/ug/create-table-as.html
