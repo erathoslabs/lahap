@@ -22,22 +22,39 @@ class Athena:
         result_table: str,
         compression: str = "GZIP",
     ) -> None:
+        select_query = f"SELECT * FROM {query_database}.{query_table}"
+        self.convert_query_to_parquet(
+            query=select_query,
+            external_location=external_location,
+            result_database=result_database,
+            result_table=result_table,
+            compression=compression,
+        )
+
+    def convert_query_to_parquet(
+        self,
+        query: str,
+        external_location: str,
+        result_database: str,
+        result_table: str,
+        compression: str = "GZIP",
+    ) -> None:
         sql = f"""
               CREATE TABLE {result_database}.{result_table}
               WITH (
                     external_location = '{external_location}',
                     format = 'PARQUET',
                     parquet_compression = '{compression}')
-              AS SELECT * FROM {query_database}.{query_table};
+              AS {query};
               """
-        self.run_query(query=sql)
+        self._run_query(query=sql)
 
-    def run_query(self, query: str) -> None:
+    def _run_query(self, query: str) -> None:
         response = self.client.start_query_execution(QueryString=query)
         query_execution_id = response["QueryExecutionId"]
-        self.wait_query_result(query_execution_id)
+        self._wait_query_result(query_execution_id)
 
-    def wait_query_result(self, query_execution_id: str) -> None:
+    def _wait_query_result(self, query_execution_id: str) -> None:
         state = "RUNNING"
         while state == "RUNNING":
             result = self.client.get_query_execution(
