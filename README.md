@@ -27,14 +27,29 @@ lahap.drop_table(database="catalog-database", table="catalog-table", only_schema
 
 ### Convert table to Parquet
 Copies a table storing it as Parquet files through CTA.
-https://docs.aws.amazon.com/athena/latest/ug/create-table-as.html
 ```python
 lahap.convert_table_to_parquet(
     query_database="source-database",
     query_table="source-table",
-    compression="Parquet Compression", # "UNCOMPRESSED", "SNAPPY", "LZO", "GZIP"
+    compression="parquet-compression", # "UNCOMPRESSED", "SNAPPY", "LZO", "GZIP"
     result_database="result-database",
     result_table="result-table-parquet",
     external_location="s3://my-bucket/path",
 )
 ```
+
+### Convert query to Parquet
+Create a new table from query and storing it as Parquet files through CTA.
+```python
+lahap.convert_query_to_parquet(
+    query="SELECT * FROM database.table",
+    compression="parquet-compression", # "UNCOMPRESSED", "SNAPPY", "LZO", "GZIP"
+    result_database="result-database",
+    result_table="result-table-parquet",
+    external_location="s3://my-bucket/path",
+)
+```
+
+##References
+###Amazon Athena CTA
+https://docs.aws.amazon.com/athena/latest/ug/create-table-as.html
