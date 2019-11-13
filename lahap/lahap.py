@@ -40,6 +40,35 @@ class Lahap:
             external_location=external_location,
         )
 
+    def convert_query_to_parquet(
+        self,
+        query: str,
+        external_location: str,
+        result_database: str,
+        result_table: str,
+        compression: str = "GZIP",
+    ) -> None:
+        """Convert Athena query result to Parquet format.
+
+        Args:
+            query (str): SQL query to be converted
+            external_location (str): S3 location to store converted Table data
+            result_database (str): catalog Database used to store new Table
+            result_table (str): new catalog Table to be created
+            compression (str): Parquet compression format ('UNCOMPRESSED', 'SNAPPY',
+                'LZO', 'GZIP'), default is 'GZIP'
+
+        Returns:
+            None: none
+        """
+        Athena(self.session).convert_query_to_parquet(
+            query=query,
+            compression=compression,
+            result_database=result_database,
+            result_table=result_table,
+            external_location=external_location,
+        )
+
     def truncate_table(self, database: str, table: str) -> None:
         """Delete all files from Athena table location in S3.
 
