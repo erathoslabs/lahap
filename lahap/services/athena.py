@@ -61,7 +61,7 @@ class Athena:
                 QueryExecutionId=query_execution_id
             )
             state = result["QueryExecution"]["Status"]["State"]
-            if state == "RUNNING":
+            if state in ("RUNNING", "QUEUED"):
                 sleep(2)
             elif state == "SUCCEEDED":
                 break
