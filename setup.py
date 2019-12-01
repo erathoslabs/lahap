@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="Lahap",
-    version="0.2",
+    version="0.2.1",
     packages=find_packages(),
     url="https://github.com/erathoslabs/lahap",
     license="MIT",
